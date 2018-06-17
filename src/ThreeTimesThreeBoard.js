@@ -3,12 +3,10 @@ import React, {Component} from 'react';
 import styles from './ThreeTimesThreeBoard.css';
 
 export default class ThreeTimesThreeBoard extends Component {
-  state = {
-    board: [['','',''],['','',''],['','','']]
-  }
+
   render(){
-    console.log(styles)
-    const {board} = this.state;
+    console.log(this.props)
+    const {board} = this.props;
     return (
       <div>
         {
@@ -17,9 +15,12 @@ export default class ThreeTimesThreeBoard extends Component {
             <div key={`row-${i}`} className={styles.row}>
               {row.map((column, j)=>{
                 return (
-                  <div key={`row-${i}-column-${j}`}
-                  className={styles.tile}>
-                Here</div>);
+                  <div
+                    key={`row-${i}-column-${j}`}
+                    className={styles.tile}
+                    onClick={()=>this.props.setTile(i,j,'X')}>
+                  {board[i][j]}
+                  </div>);
               })
               }
             </div>
