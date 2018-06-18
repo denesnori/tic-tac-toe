@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home.js';
 import TTT from './ttt.js';
 import ThreeTimesThree from './ThreeTimesThree';
-import logo from './logo.svg';
 import './App.css';
 
 const App = () => (
