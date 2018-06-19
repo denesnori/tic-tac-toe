@@ -14,6 +14,8 @@ export default class Home extends Component {
         <button><Link to={`/about`}>1 Player</Link></button>
         <button><Link to={`/about`}>2 Players</Link></button>
         <button><Link to={`/about`}>Computer vs Computer</Link>r</button>
+        <button><Link to={'/canvas'}> Canvas</Link></button>
+        <button><Link to={'/infinite'}>Infinite</Link></button>
       </div>);
   }
 }

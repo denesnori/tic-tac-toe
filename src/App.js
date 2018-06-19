@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home.js';
 import TTT from './ttt.js';
 import ThreeTimesThree from './ThreeTimesThree';
+import Canvas from './Canvas';
+import Infinite from './Infinite';
 import './App.css';
 
 const App = () => (
@@ -11,6 +13,8 @@ const App = () => (
       <Route exact path='/' component={Home} />
       <Route path='/about' component={TTT} />
       <Route path='/3times3' component={ThreeTimesThree} />
+      <Route path = '/canvas' component={Canvas} />
+      <Route path='/infinite' component={Infinite} />
     </div>
   </Router>
 )
