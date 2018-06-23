@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import InfiniteBoard from './InfiniteBoard';
 
 export default class Infinite extends Component {
 
@@ -6,7 +7,7 @@ export default class Infinite extends Component {
     super(props);
     this.state = {
       height: window.innerHeight,
-      h: Math.round(window.height/60)+1,
+      h: Math.round(window.innerHeight/60)+1,
       width: window.innerWidth,
       w: Math.round(window.innerWidth/60)+1,
     }
@@ -15,15 +16,7 @@ export default class Infinite extends Component {
   render() {
     return (
       <div style={{height: `${this.state.height}px`, width: `${this.state.width}px`}}>
-        <h1>I will be infinite</h1>
-        <div>
-        <button>Up</button>
-        <button>Down</button>
-        </div>
-        <div style={{display: 'flex', 'justifyContent': 'space-between'}}>
-        <button>Left</button>
-        <button>Right</button>
-        </div>
+        <InfiniteBoard  w={this.state.w} h={this.state.h}/>
       </div>);
   }
 }

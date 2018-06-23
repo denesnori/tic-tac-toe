@@ -2,9 +2,9 @@ import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home.js';
 import TTT from './ttt.js';
-import ThreeTimesThree from './ThreeTimesThree';
+import ThreeTimesThree from './threeTimesThree/ThreeTimesThree';
 import Canvas from './Canvas';
-import Infinite from './Infinite';
+import Infinite from './infinite/Infinite';
 import './App.css';
 
 const App = () => (
