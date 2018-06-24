@@ -30,7 +30,7 @@ export default class ThreeTimesThree extends Component<Props, State>{
     // check it is empty TODO
     const symbol = round % 2 === 0 ? 'X' : 'O';
     newBoard[row][column] = symbol;
-    const isOver = isFinished(newBoard)
+    const isOver = isFinished(newBoard, row, column)
     if (isOver||findEmpty(newBoard).length===0) {
       this.setState({board:newBoard, isFinished})
     } else {
@@ -38,7 +38,7 @@ export default class ThreeTimesThree extends Component<Props, State>{
       const [x, y] = computer.move;
       newBoard[x][y]='O'
       round+=2;
-      this.setState({board:newBoard,round, isOver:isFinished(newBoard)});
+      this.setState({board:newBoard,round, isOver:isFinished(newBoard, x,y)});
     }
   }
 
@@ -59,6 +59,7 @@ export default class ThreeTimesThree extends Component<Props, State>{
   }
 
   render(){
+    console.log(this.props)
     return (
       <div >
         <div>

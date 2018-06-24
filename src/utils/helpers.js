@@ -19,7 +19,7 @@ export const deepEqual = (arr1, arr2) => {
   return true;
 }
 
-export const checkDirection = (x, y, dx, dy, board) => {
+/*export const checkDirection = (x, y, dx, dy, board) => {
   let sign = board[x][y]
   for (let i=0; i<3; i++){
     if(![0,1,2].includes(x) || ![0, 1, 2].includes(y) || board[x][y] !== sign) {
@@ -29,20 +29,78 @@ export const checkDirection = (x, y, dx, dy, board) => {
     y += dy;
   }
   return sign;
+}*/
+
+export const checkDirection = (x, y, dx, dy, board)=>{
+  let sign = board[x][y];
+  let counter = 1;
+  for(let i=0; i<2; i++) {
+     x+= dx;
+     y+=dy;
+    if(![0,1,2].includes(x)||![0,1,2].includes(y)||board[x][y]!==sign){
+      break;
+    }
+    counter++;
+  }
+  x-=counter*dx
+  y-=counter*dy
+   for(let i=0; i<2; i++) {
+     x-= dx;
+     y-=dy;
+    if(![0,1,2].includes(x)||![0,1,2].includes(y)||board[x][y]!==sign){
+      break;
+    }
+    counter++;
+  }
+  return counter===3? sign: false;
 }
 
-export const isFinished = (board) => {
+export const checkDirection4 = (x, y, dx, dy, board) => {
+  let sign = board[x][y]
+  for (let i=0; i<4; i++){
+    if(![0,1,2,3 ,4 ,5].includes(x) || ![0, 1, 2, 3, 4, 5].includes(y) || board[x][y] !== sign) {
+      return false;
+    }
+    x += dx;
+    y += dy;
+  }
+  return sign;
+}
+
+export const isFinished = (board, x,y) => {
+  const directions = [ [0, 1], [1, 0], [1, 1], [-1, 1]];
+  for (let i=0; i< directions.length; i++) {
+    let [dx, dy] = directions[i];
+    const win = checkDirection(x,y, dx,dy, board);
+    if(win){
+      return win;
+    }
+  }
+  return false;
+}
+export const isFinishedAll = (board) => {
   const directions = [ [0, 1], [1, 0], [1, 1], [-1, 1]];
   for (let j = 0; j < board.length; j++) {
       for (let k=0; k< directions.length; k++) {
         let [dx, dy] = directions[k];
-        let win1= checkDirection(0,j,dx,dy, board)
-        if(board[0][j]&&win1) {
-          return win1;
-        }
-        let win2 = checkDirection(j, 0, dx,dy, board)
-        if(board[j][0]&&win2) {
-          return win2;
+        if(board.length===6) {
+          let win1= checkDirection4(0,j,dx,dy, board)
+          if(board[0][j]&&win1) {
+            return win1;
+          }
+          let win2 = checkDirection4(j, 0, dx,dy, board)
+          if(board[j][0]&&win2) {
+            return win2;
+          }
+        } else {
+          let win1= checkDirection(0,j,dx,dy, board)
+          if(board[0][j]&&win1) {
+            return win1;
+          }
+          let win2 = checkDirection(j, 0, dx,dy, board)
+          if(board[j][0]&&win2) {
+            return win2;
+          }
         }
       }
   }
@@ -54,7 +112,7 @@ const human='X';
 const draw='D';
 const cache=[];
 export const miniMax = (board, player) => {
-  let win = isFinished(board);
+  let win = isFinishedAll(board);
   let empty=findEmpty(board);
   if(win){
     cache.push({board: board.map(arr=>arr.slice()), who: player, winner:win})
@@ -99,5 +157,8 @@ export const miniMax = (board, player) => {
      ret = {move : empty[0], winner : player === computer ? human : computer}
   }
   cache.push({board: board.map(arr=>arr.slice()), who: player, winner:ret.winner, move:ret.move})
+  if(cache.length%1000===0){
+    console.log(cache, 'cache')
+  }
   return ret
 }
