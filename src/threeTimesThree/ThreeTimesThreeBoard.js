@@ -6,7 +6,7 @@ export default class ThreeTimesThreeBoard extends Component {
 
   renderTile = (i, j)=>{
     const {board, isOver} = this.props;
-    if(isOver || this.props.board[i][j]){
+    if(isOver || board[i][j]){
       return (
         <div
           key={`row-${i}-column-${j}`}
@@ -14,7 +14,6 @@ export default class ThreeTimesThreeBoard extends Component {
         {board[i][j]}
         </div>);
       }
-
     return (
       <div
         key={`row-${i}-column-${j}`}

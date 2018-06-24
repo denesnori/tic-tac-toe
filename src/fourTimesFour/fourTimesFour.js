@@ -1,9 +1,9 @@
 // @flow
 import React, {Component} from 'react';
 
-import ThreeTimesThreeBoard from './ThreeTimesThreeBoard';
+import ThreeTimesThreeBoard from '../threeTimesThree/ThreeTimesThreeBoard';
 import { findEmpty, isFinished, miniMax } from '../utils/helpers';
-import styles from './ThreeTimesThree.css';
+import styles from '../threeTimesThree/ThreeTimesThree.css';
 
 type State = {
     board: Array<Array<string>>,
@@ -13,14 +13,14 @@ type Props = {
 
 };
 
-export default class ThreeTimesThree extends Component<Props, State>{
+export default class FourTimesFour extends Component<Props, State>{
 
   constructor(props:Props){
     super(props);
     this.state={
-      board:[['','',''],['','',''],['','','']],
+      board:[['','','', ''], ['','','', ''], ['','','', ''], ['','','', '']],
       round: 0,
-      isOver:false,
+      isOver: false,
     }
   }
 
@@ -32,20 +32,22 @@ export default class ThreeTimesThree extends Component<Props, State>{
     // check it is empty TODO
     const symbol = round % 2 === 0 ? 'X' : 'O';
     newBoard[row][column] = symbol;
-    const isOver = isFinished(newBoard, row, column)
-    if (isOver||findEmpty(newBoard).length===0) {
-      this.setState({board:newBoard, isOver})
-    } else {
+    const isOver = isFinished(newBoard,row, column)
+  //  if (isOver||findEmpty(newBoard).length===0) {
+      round++;
+      this.setState({board:newBoard, isOver, round})
+    //}
+     /*else {
       const computer = miniMax(newBoard, 'O');
       const [x, y] = computer.move;
       newBoard[x][y]='O'
       round+=2;
       this.setState({board:newBoard,round, isOver:isFinished(newBoard, x,y)});
-    }
+    }*/
   }
 
   restart = () => {
-    this.setState({round: 0, board: [['','',''],['','',''],['','','']], isOver: false})
+    this.setState({round: 0, board: [['','','', ''], ['','','', ''], ['','','', ''], ['','','', '']], isOver: false})
   }
 
   stateOfTheGame = () => {
@@ -61,11 +63,11 @@ export default class ThreeTimesThree extends Component<Props, State>{
   }
 
   render(){
-    const { board, isOver} = this.state;
+    const { board, isOver }=this.state;
     return (
       <div className={styles['game-container']}>
-        <h1>Simple 3*3 tic-tac-toe</h1>
-        <ThreeTimesThreeBoard setTile={this.setTile} board={board} isOver={isOver}/>
+        <h1>Simple 4*4 tic-tac-toe</h1>
+        <ThreeTimesThreeBoard setTile={this.setTile} board={board} isOver={isOver} />
         <h3>{this.stateOfTheGame()}</h3>
         <button onClick={this.restart}>Restart game</button>
       </div>

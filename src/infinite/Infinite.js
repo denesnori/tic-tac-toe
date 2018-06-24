@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import InfiniteBoard from './InfiniteBoard';
-import $ from 'jquery';
 export default class Infinite extends Component {
 
   constructor(props){

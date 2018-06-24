@@ -1,3 +1,15 @@
+import { BinTree} from 'bintrees';
+
+export const charDiff = (a,b) => {
+  if (a === b) {
+    return 0;
+  }
+  if (a === "X") return 1.0;
+  if (b === "X") return -1.0;
+  if (a === "O") return 1.0;
+  if (b === "O") return -1.0;
+}
+
 export const findEmpty = (board) => {
   let empty = [];
   board.forEach((row, x) => {
@@ -34,25 +46,26 @@ export const deepEqual = (arr1, arr2) => {
 export const checkDirection = (x, y, dx, dy, board)=>{
   let sign = board[x][y];
   let counter = 1;
-  for(let i=0; i<2; i++) {
+  const l = board.length;
+  for(let i=0; i<l-1; i++) {
      x+= dx;
      y+=dy;
-    if(![0,1,2].includes(x)||![0,1,2].includes(y)||board[x][y]!==sign){
+    if(x<0||x>l-1||y<0||y>l-1||board[x][y]!==sign){
       break;
     }
     counter++;
   }
   x-=counter*dx
   y-=counter*dy
-   for(let i=0; i<2; i++) {
+   for(let i=0; i<l-1; i++) {
      x-= dx;
      y-=dy;
-    if(![0,1,2].includes(x)||![0,1,2].includes(y)||board[x][y]!==sign){
+    if(x<0||x>l-1||y<0||y>l-1||board[x][y]!==sign){
       break;
     }
     counter++;
   }
-  return counter===3? sign: false;
+  return counter===board.length? sign: false;
 }
 
 export const checkDirection4 = (x, y, dx, dy, board) => {
@@ -83,16 +96,6 @@ export const isFinishedAll = (board) => {
   for (let j = 0; j < board.length; j++) {
       for (let k=0; k< directions.length; k++) {
         let [dx, dy] = directions[k];
-        if(board.length===6) {
-          let win1= checkDirection4(0,j,dx,dy, board)
-          if(board[0][j]&&win1) {
-            return win1;
-          }
-          let win2 = checkDirection4(j, 0, dx,dy, board)
-          if(board[j][0]&&win2) {
-            return win2;
-          }
-        } else {
           let win1= checkDirection(0,j,dx,dy, board)
           if(board[0][j]&&win1) {
             return win1;
@@ -101,7 +104,6 @@ export const isFinishedAll = (board) => {
           if(board[j][0]&&win2) {
             return win2;
           }
-        }
       }
   }
   return false;
@@ -110,21 +112,30 @@ export const isFinishedAll = (board) => {
 const computer='O';
 const human='X';
 const draw='D';
-const cache=[];
+
+const cache=new BinTree((a,b) => {
+  if (a.who !== b.who) {
+    return a.who === computer ? 1.0 : -1.0
+  }
+  for (let i = 0; i < a.board.length; i++) {
+    for (let j = 0; j < a.board[i].length; j++){
+      if (a.board[i][j] !== b.board[i][j]) return charDiff(a.board[i][j], b.board[i][j])
+    }
+  }
+  return 0.0
+});
 export const miniMax = (board, player) => {
   let win = isFinishedAll(board);
   let empty=findEmpty(board);
   if(win){
-    cache.push({board: board.map(arr=>arr.slice()), who: player, winner:win})
+    cache.insert({board: board.map(arr=>arr.slice()), who: player, winner:win})
     return {winner: win}
   } else if(empty.length===0){
-    cache.push({board: board.map(arr=>arr.slice()), who: player, winner:draw})
+    cache.insert({board: board.map(arr=>arr.slice()), who: player, winner:draw})
     return {winner:draw}
   }
 
-  let isCached = cache.find(item=>{
-    return (item.who === player) && deepEqual(item.board, board)
-  })
+  let isCached = cache.find({who: player, board: board})
   if(isCached){
     return isCached;
   }
@@ -156,9 +167,9 @@ export const miniMax = (board, player) => {
   if (Object.keys(ret).length === 0){
      ret = {move : empty[0], winner : player === computer ? human : computer}
   }
-  cache.push({board: board.map(arr=>arr.slice()), who: player, winner:ret.winner, move:ret.move})
-  if(cache.length%1000===0){
-    console.log(cache, 'cache')
+  cache.insert({board: board.map(arr=>arr.slice()), who: player, winner:ret.winner, move:ret.move})
+  if(cache.size%1000===0){
+    console.log(cache.size, 'cache')
   }
   return ret
 }
