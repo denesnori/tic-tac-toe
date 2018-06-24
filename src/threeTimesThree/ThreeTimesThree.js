@@ -70,7 +70,6 @@ const draw='D';
 const cache=[];
 function miniMax(board, player) {
   let win = isFinished(board);
-  console.log('WIB', win)
   let empty=findEmpty(board);
   if(win){
     cache.push({board: board.map(arr=>arr.slice()), who: player, winner:win})
@@ -84,7 +83,6 @@ function miniMax(board, player) {
     return (item.who === player) && deepEqual(item.board, board)
   })
   if(isCached){
-    //console.log(isCached)
     return isCached;
   }
 
@@ -92,7 +90,6 @@ function miniMax(board, player) {
   for (let i=0; i<empty.length; i++) {
     let move = {}
     const [x, y] = empty[i];
-    console.log(x, y)
 
     move.move=empty[i]
     board[x][y]= player;
@@ -126,7 +123,7 @@ export default class ThreeTimesThree extends Component<Props, State>{
   constructor(props:Props){
     super(props);
     this.state={
-      board:[['O','X','O'],['X','X','O'],['','','']],
+      board:[['','',''],['','',''],['','','']],
       round: 0,
     }
   }
@@ -142,22 +139,16 @@ export default class ThreeTimesThree extends Component<Props, State>{
     });;
     // check it is empty TODO
     const symbol = round % 2 === 0 ? 'X' : 'O';
-    console.log(round, symbol)
     newBoard[row][column] = symbol;
 
     const isFinished = this.isFinished(newBoard)
-    console.log(isFinished, round)
     if (isFinished||findEmpty(newBoard).length===0) {
-      console.log('Finished', isFinished)
       this.setState({board:newBoard, isFinished})
     } else {
-      console.log('here')
       const computer = miniMax(newBoard, 'O');
-      console.log(cache)
       const [x, y] = computer.move;
       newBoard[x][y]='O'
       round+=2;
-      console.log(round)
       this.setState({board:newBoard,round, isFinished:this.isFinished(newBoard)});
     }
   }
@@ -186,7 +177,7 @@ export default class ThreeTimesThree extends Component<Props, State>{
 
   stateOfTheGame = () => {
     const { isFinished, round, board } = this.state;
-    console.log(isFinished, round, board)
+
     if (isFinished){
       return `${isFinished} won the game!`;
     }
