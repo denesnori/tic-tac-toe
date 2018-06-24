@@ -17,7 +17,7 @@ export default class SixTimesSix extends Component<Props, State>{
   constructor(props:Props){
     super(props);
     this.state={
-      board:[['','','', ''], ['','','', ''], ['','','', ''], ['','','', '']],
+      board:[['X','O','', ''], ['','','', ''], ['','','', ''], ['','','X', 'O']],
       round: 0,
       isOver:false,
     }
@@ -61,7 +61,7 @@ export default class SixTimesSix extends Component<Props, State>{
 
   render(){
     const { board, isOver } = this.state;
-    
+
     return (
       <div >
         <div>
