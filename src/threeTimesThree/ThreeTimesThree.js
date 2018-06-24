@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 
 import ThreeTimesThreeBoard from './ThreeTimesThreeBoard';
 import { findEmpty, isFinished, miniMax } from '../utils/helpers';
+import styles from './ThreeTimesThree.css';
 
 type State = {
     board: Array<Array<string>>,
@@ -43,7 +44,7 @@ export default class ThreeTimesThree extends Component<Props, State>{
   }
 
   restart = () => {
-    this.setState({round: 0, board: [['','',''],['','',''],['','','']]})
+    this.setState({round: 0, board: [['','',''],['','',''],['','','']], isOver: false})
   }
 
   stateOfTheGame = () => {
@@ -59,13 +60,11 @@ export default class ThreeTimesThree extends Component<Props, State>{
   }
 
   render(){
-    console.log(this.props)
+    const { board, isOver} = this.state;
     return (
-      <div >
-        <div>
+      <div className={styles['game-container']}>
         <h1>Simple 3*3 tic-tac-toe</h1>
-        </div>
-        <ThreeTimesThreeBoard setTile={this.setTile} board={this.state.board} />
+        <ThreeTimesThreeBoard setTile={this.setTile} board={board} isOver={isOver}/>
         <h3>{this.stateOfTheGame()}</h3>
         <button onClick={this.restart}>Restart game</button>
       </div>

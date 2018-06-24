@@ -27,9 +27,7 @@ export default class Infinite extends Component {
        context.stroke();
        context.fill();
    }
-   $(function() {
-        $( "#myCanvas" ).draggable();
-    });
+
   }
 
   render() {

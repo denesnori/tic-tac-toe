@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { isFinishedAll, findEmpty} from './utils/helpers';
 
 function drawBoard(canvas, width, height, padding){
   const ctx = canvas.getContext('2d');
@@ -29,15 +30,18 @@ export default class Canvas extends Component {
   }
 
   getCanvasPosition = (event) => {
+    let { board } = this.state;
     const rect = this.canvas.getBoundingClientRect(); // x, y, width, height, bottom, left, top
     let  x =  Math.floor((event.clientX-rect.x)/60);
     let y = Math.floor((event.clientY-rect.y)/60);
     if(this.state.round%2==0){
       this.drawX(x, y);
+      board[x][y]='X';
     } else {
       this.drawO(x, y);
+      board[x][y]='O'
     }
-    this.setState({round: this.state.round+1});
+    this.setState({round: this.state.round+1, board});
   }
 
   drawX = (x, y) => {
@@ -68,10 +72,23 @@ export default class Canvas extends Component {
     ctx.stroke()
   }
 
+  stateOfTheGame = () => {
+    const { round, board } = this.state;
+    const isOver = isFinishedAll(board);
+    if (isOver){
+      return `${isOver} won the game!`;
+    }
+    if (findEmpty(board).length===0&&  !isOver){
+      return `Game over! It is a tie!`
+    }
+    return `${round%2===0?'X':'O'}'s turn!`;
+  }
+
   render () {
+    const {board} = this.state;
     return (
       <div style={{'display': 'flex', 'justifyContent': 'center', 'flexDirection': 'column'}}>
-        <h3>To be continued</h3>
+        <h3>{this.stateOfTheGame()}</h3>
         <div style={{'display': 'flex', 'justifyContent': 'center', 'alignItems':'center'}}>
           <canvas
             ref={ canvas => (this.canvas=canvas)}
