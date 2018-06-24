@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 
 import ThreeTimesThreeBoard from './ThreeTimesThreeBoard';
-import { findEmpty, isFinished, miniMax, isFinished2 } from '../utils/helpers';
+import { findEmpty, isFinished, miniMax } from '../utils/helpers';
 
 type State = {
     board: Array<Array<string>>,

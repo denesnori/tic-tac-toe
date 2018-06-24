@@ -1,5 +1,5 @@
 
-let board = [['O', '', 'X'], ['X', '', 'X'], ['', 'O', 'O']];
+//let board = [['O', '', 'X'], ['X', '', 'X'], ['', 'O', 'O']];
 
 function findEmpty(board){
   let empty = [];
@@ -51,9 +51,9 @@ function miniMax(board, player, depth) {
   let empty=findEmpty(board);
   if(win){
 
-    let score = player=='O'?10:-10;
+    let score = player==='O'?10:-10;
     return {score,depth}
-  } else if(empty==0){
+  } else if(empty===0){
     return {score:0,depth}
   }
 
@@ -65,7 +65,7 @@ function miniMax(board, player, depth) {
     move.x=x
     move.y=y
     board[x][y]= player;
-    if(player==computer){
+    if(player===computer){
       let result = miniMax(board, human, depth+1)
       move.score = result.score
       move.depth = result.depth
@@ -80,7 +80,7 @@ function miniMax(board, player, depth) {
 
   console.log(moves)
   let bestMove;
-  if(player==computer){
+  if(player===computer){
     let bestScore=-Infinity
     for(let i=0;i<moves.length;i++) {
       if(moves[i].score>bestScore || (moves[i].score===bestScore&&moves[i].depth<bestMove.depth)){
@@ -201,9 +201,9 @@ function miniMax(board, player, depth) {
   let empty=findEmpty(board);
   if(win){
 
-    let score = player=='O'?10:-10;
+    let score = player==='O'?10:-10;
     return {score,depth}
-  } else if(empty==0){
+  } else if(empty===0){
     return {score:0,depth}
   }
 
@@ -224,7 +224,7 @@ function miniMax(board, player, depth) {
     move.x=x
     move.y=y
     board[x][y]= player;
-    if(player==computer){
+    if(player===computer){
       let result = miniMax(board, human, depth+1)
       move.score = result.score
       move.depth = result.depth
